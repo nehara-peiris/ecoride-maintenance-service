@@ -1,0 +1,49 @@
+package com.ecoride.maintenance_service.controller;
+
+import com.ecoride.maintenance_service.entity.MaintenanceJob;
+import com.ecoride.maintenance_service.service.MaintenanceService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/maintenance")
+public class MaintenanceController {
+
+    private final MaintenanceService maintenanceService;
+
+    public MaintenanceController(MaintenanceService maintenanceService) {
+        this.maintenanceService = maintenanceService;
+    }
+
+    @PostMapping
+    public MaintenanceJob createJob(@RequestBody MaintenanceJob job) {
+        return maintenanceService.createJob(job);
+    }
+
+    @GetMapping
+    public List<MaintenanceJob> getAllJobs() {
+        return maintenanceService.getAllJobs();
+    }
+
+    @GetMapping("/{id}")
+    public MaintenanceJob getJobById(@PathVariable Long id) {
+        return maintenanceService.getJobById(id);
+    }
+
+    @GetMapping("/vehicle/{vehicleCode}")
+    public List<MaintenanceJob> getJobsByVehicleCode(@PathVariable String vehicleCode) {
+        return maintenanceService.getJobsByVehicleCode(vehicleCode);
+    }
+
+    @PutMapping("/{id}")
+    public MaintenanceJob updateJob(@PathVariable Long id, @RequestBody MaintenanceJob job) {
+        return maintenanceService.updateJob(id, job);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteJob(@PathVariable Long id) {
+        maintenanceService.deleteJob(id);
+        return "Maintenance job deleted successfully";
+    }
+}
