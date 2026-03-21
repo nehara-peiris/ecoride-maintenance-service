@@ -1,8 +1,11 @@
 package com.ecoride.maintenance_service.controller;
 
 import com.ecoride.maintenance_service.entity.MaintenanceJob;
+import com.ecoride.maintenance_service.service.GcsStorageService;
 import com.ecoride.maintenance_service.service.MaintenanceService;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -11,9 +14,12 @@ import java.util.List;
 public class MaintenanceController {
 
     private final MaintenanceService maintenanceService;
+    private final GcsStorageService gcsStorageService;
 
-    public MaintenanceController(MaintenanceService maintenanceService) {
+    public MaintenanceController(MaintenanceService maintenanceService,
+                                 GcsStorageService gcsStorageService) {
         this.maintenanceService = maintenanceService;
+        this.gcsStorageService = gcsStorageService;
     }
 
     @PostMapping
@@ -45,5 +51,12 @@ public class MaintenanceController {
     public String deleteJob(@PathVariable Long id) {
         maintenanceService.deleteJob(id);
         return "Maintenance job deleted successfully";
+    }
+
+    @PostMapping(value = "/{id}/attachment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public MaintenanceJob uploadAttachment(@PathVariable Long id,
+                                           @RequestParam("file") MultipartFile file) throws Exception {
+        String fileUrl = gcsStorageService.uploadFile(file);
+        return maintenanceService.uploadAttachment(id, fileUrl, file.getOriginalFilename());
     }
 }

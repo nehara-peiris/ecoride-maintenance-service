@@ -47,4 +47,11 @@ public class MaintenanceService {
     public void deleteJob(Long id) {
         maintenanceJobRepository.deleteById(id);
     }
+
+    public MaintenanceJob uploadAttachment(Long id, String fileUrl, String fileName) {
+        MaintenanceJob job = getJobById(id);
+        job.setAttachmentUrl(fileUrl);
+        job.setAttachmentName(fileName);
+        return maintenanceJobRepository.save(job);
+    }
 }

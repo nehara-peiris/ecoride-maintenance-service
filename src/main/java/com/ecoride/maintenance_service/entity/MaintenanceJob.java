@@ -29,6 +29,9 @@ public class MaintenanceJob {
     private LocalDate scheduledDate;
     private LocalDate completedDate;
 
+    private String attachmentUrl;
+    private String attachmentName;
+
     public MaintenanceJob() {
     }
 
@@ -106,5 +109,21 @@ public class MaintenanceJob {
 
     public void setCompletedDate(LocalDate completedDate) {
         this.completedDate = completedDate;
+    }
+
+    public String getAttachmentUrl() {
+        return attachmentUrl;
+    }
+
+    public void setAttachmentUrl(String attachmentUrl) {
+        this.attachmentUrl = attachmentUrl;
+    }
+
+    public String getAttachmentName() {
+        return attachmentName;
+    }
+
+    public void setAttachmentName(String attachmentName) {
+        this.attachmentName = attachmentName;
     }
 }
